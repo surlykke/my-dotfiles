@@ -1,11 +1,9 @@
 alacritty
 apt-file
-autorandr
 blueman
 curl
 feh
 fish
-flameshot
 git
 golang
 gopls
@@ -41,7 +39,7 @@ libvirt-daemon-system
 virtinst
 virt-manager
 qemu-system
-qemu-kvm
+qemu-system-x86
 firewall-config
 firewalld
 clamav-freshclam

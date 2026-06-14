@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 function usage() {
 	cat <<- EOM
@@ -12,7 +12,7 @@ function usage() {
 	EOM
 }
 
-for expectedFile in etc home etcConfig.sh homeConfig.sh setup.sh; do 
+for expectedFile in README.md  apt-packages.lst  home  setup.sh; do
 	if [[ ! -a "$expectedFile" ]]; then
 		echo "This ($(pwd)) doesn't look like a pc-config directory"
 		exit 1
