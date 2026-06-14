@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-cvr | xclip -i -selection c
+cvr | wl-copy

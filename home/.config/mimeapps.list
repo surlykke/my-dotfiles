@@ -1,8 +1,10 @@
 [Default Applications]
 inode/directory=terminal.desktop
-text/html=brave_brave.desktop
-x-scheme-handler/http=brave_brave.desktop
-x-scheme-handler/https=brave_brave.desktop
-x-scheme-handler/about=brave_brave.desktop
-x-scheme-handler/unknown=brave_brave.desktop
-x-scheme-handler/webcal=brave_brave.desktop
+text/html=vivaldi-stable.desktop
+x-scheme-handler/http=vivaldi-stable.desktop
+x-scheme-handler/https=vivaldi-stable.desktop
+x-scheme-handler/about=vivaldi-stable.desktop
+x-scheme-handler/unknown=vivaldi-stable.desktop
+x-scheme-handler/webcal=google-chrome.desktop
+x-scheme-handler/jetbrains=jetbrainsd.desktop
+x-scheme-handler/slack=slack.desktop

@@ -1,0 +1,59 @@
+* {
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 18px;
+}
+
+window#waybar {
+    background-color: rgba(43, 48, 59, 0.5);
+    color: #ffffff;
+}
+
+
+#pulseaudio:hover/*,
+#workspaces.hover */{
+    border-bottom: solid 1px white;
+}
+
+#clock,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#battery,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#tray,
+#idle_inhibitor{
+    padding: 0 10px;
+	border-right: solid gray 1px;
+}
+
+#workspaces button {
+    color: #ffffff;
+	border-right: solid gray 1px;
+}
+
+#workspaces button.focused {
+	background-color: rgba(143, 148, 159, 0.5);
+}
+
+#workspaces.hover {
+	background-color: black;
+}
+
+#workspaces button.hover {
+	background-color: black;
+}
+
+#workspaces.focused {
+	background-color: black;
+}
+
+#workspaces button.focused {
+	background-color: gray;
+}
+
+

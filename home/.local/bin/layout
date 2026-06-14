@@ -1,55 +1,107 @@
 #!/usr/bin/env bash
-#
 
-name ()
-{
-	swaymsg -t get_outputs | jq -r ".[] | select(.serial == \"$1\") | .name"	
+wait() {
+	deadline=$(( $(date +%s) + 10 ))
+	for str in $@; do
+		while  ! niri msg windows | grep "$str" >/dev/null; do
+			if [[ ! $(date +%s) -lt $deadline ]]; then
+				echo "deadline exceeded with prefix $prefix and $str">&2
+				exit 1
+			fi
+			sleep 0.5
+		done
+	done
 }
 
-SERIAL1=MY3ND83901XT # Allerød venstre
-SERIAL2=MY3ND83904VT # Allerød højre
-SERIAL3=0x00026FA3   # Slettebjerget widescreen
-SERIAL4=H4ZMC00708   # Vang 4k 
-if swaymsg -p -t get_outputs | grep $SERIAL1; then
-	M2=$(name $SERIAL1)
-	M3=$(name $SERIAL2)
-	echo "M2: $M2, M3: $M3"
-	swaymsg output eDP-1 position 0 360
-	swaymsg output $M2 position 1920 0
-	swaymsg output $M3 position 4480 0
-	
-	WindowArranger -wait 30 <<-EOC
-		eDP-1: V['title=Work' 'title=Log']
-		$M2: T['instance=jetbrains-idea']
-		$M3: H[T['instance=google-chrome'] V['instance=slack' 'title=".*Microsoft Teams.*"']]
-	EOC
-	swaymsg '[instance=slack] resize set width 900px'
-elif swaymsg -p -t get_outputs | grep $SERIAL3; then
-	M=$(name $SERIAL3)
-	swaymsg output eDP-1 position 0 360
-	swaymsg output $M position 1920 0
-	WindowArranger -wait 30 <<-EOC
-		eDP-1: V['title=Work' 'title=Log']
-		$M: H[T['instance=google-chrome'] T['instance=jetbrains-idea'] V['instance=slack' 'title=".*Microsoft Teams.*"']]
-	EOC
-	swaymsg '[title=Slack] resize set width 1000 px'
-	swaymsg '[instance=jetbrains-idea] resize set width 2600 px'	
-elif swaymsg -p -t get_outputs | grep $SERIAL4; then
-	M=$(name $SERIAL4)
-	swaymsg output eDP-1 position 0 1080
-	swaymsg output $M position 1920 0
+untangle() {
+	while true; do 
+		consumed=$(niri msg -j windows | jq ".[] | select(.layout.pos_in_scrolling_layout[1] == 2) | .id")
+		if [ -z "$consumed" ]; then 
+			break
+		fi
+		for id in $consumed; do 
+			niri msg action focus-window --id $id
+			niri msg action expel-window-from-column	
+		done
+	done
+}
 
-	WindowArranger -wait 30 <<-EOC
-		eDP-1: T['instance=google-chrome']
-		$M: H[V[H['title=Work' 'title=Log']  T['instance=jetbrains-idea']] V['instance=slack' 'title=".*Microsoft Teams.*"']]
-	EOC
-	swaymsg '[instance=jetbrains-idea] resize set width 2800 px'
-	swaymsg '[instance=jetbrains-idea] resize set height 1400 px'
+declare -A seen
+
+arrange() {
+	declare -a ids
+	declare -A widths
+	declare -A consumes
+	monitor=$1
+	workspace=$2
+	shift 2
+
+	while [ -n "$1" ]; do
+		field=$(echo $1 | cut -d : -f 1)
+		value=$(echo $1 | cut -d : -f 2)
+		width=$(echo $1 | cut -d : -f 3)
+		width=${width:-100%}
+		consume=$(echo $1 | cut -d : -f 4)
+
+		for id in $(niri msg -j windows | jq ".[] | select(.$field | test(\"$value\")) | .id"); do
+			if [ -n "${seen[$id]}" ]; then
+				continue
+			fi 
+			seen[$id]="yes"
+			ids+=($id)
+			widths[$id]=$width
+			if [ -n "$consume" ]; then
+				consumes[$id]="yes"
+			fi
+		done
+		shift
+	done
+
+	for id in ${ids[@]}; do 
+		niri msg action move-window-to-monitor --id $id "$monitor"
+		niri msg action move-window-to-workspace --window-id $id $workspace
+	done		
+
+	index=1
+	prevId=-1
+	for id in ${ids[@]}; do 
+		width=${widths[$id]}
+		niri msg action focus-window --id $id
+		niri msg action set-window-width --id $id $width
+		niri msg action move-column-to-index $index
+		if [ -n "${consumes[$id]}" ]; then 
+			niri msg action focus-window --id $prevId
+			niri msg action consume-window-into-column
+		else 
+			prevId=$id
+			index=$(( $index + 1 ))
+		fi
+	done
+
+	niri msg action focus-window --id ${ids[0]} || :
+
+}
+
+
+untangle
+
+if niri msg outputs | grep "LG Electronics LG HDR DQHD 0x00026FA3" >/dev/null; then
+	echo Hillerød
+	wait "Work" "Build" "Log" "vivaldi-stable" "jetbrains-idea" "Slack" "Microsoft-edge"
+	arrange eDP-1 1  title:^Work\$ title:^Build\$ title:^Log\$
+	arrange "LG Electronics LG HDR DQHD 0x00026FA3" 1 app_id:vivaldi-stable:30% app_id:jetbrains-idea:50% app_id:slack:20% app_id:Microsoft-edge:30% title::30%
+elif niri msg outputs | grep MY3ND83901XT; then
+	echo Allerød
+	wait "Work" "Build" "Log" "vivaldi-stable" "jetbrains-idea" "Slack" "Microsoft-edge"
+	arrange eDP-1 1  title:^Work\$ title:^Build\$ title:^Log\$
+	arrange "Dell Inc. DELL P2418D MY3ND83901XT" 1 app_id:jetbrains-idea 
+	arrange "Dell Inc. DELL P2418D MY3ND83904VT" 1 app_id:vivaldi-stable app_id:slack app_id:Microsoft-edge title:
+elif niri msg outputs | grep H4ZMC00708; then
+	echo Vang
+	wait "Work" "Build" "Log" "vivaldi-stable" "jetbrains-idea" "Slack" "Microsoft-edge"
+	arrange eDP-1 1  title:^Work\$ title:^Build\$ title:^Log\$
+	arrange "Samsung Electric Company U32R59x H4ZMC00708" 1  app_id:vivaldi-stable app_id:jetbrains-idea:70% app_id:slack:30% app_id:Microsoft-edge::consume 
 else
-	# Put everything on eDP-1 in a tabbed layout
-	WindowArranger <<-EOC
-		eDP-1: T['title=.*'] 
-	EOC
+	wait "Work" "Build" "Log" "vivaldi-stable" "jetbrains-idea" "Slack" "Microsoft-edge"
+	arrange eDP-1 1  title:^Work\$ title:^Build\$ title:^Log\$ app_id:jetbrains-idea app_id:vivaldi-stable title:
 fi
-
-

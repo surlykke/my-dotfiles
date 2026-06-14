@@ -50,3 +50,6 @@ if test -e "$HOME/.config/fish/local_config.fish";
 	source "$HOME/.config/fish/local_config.fish"
 end
 
+#if string match -q "/dev/tty1" (tty); 
+# exec niri-session
+#end
