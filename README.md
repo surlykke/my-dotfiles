@@ -1,6 +1,6 @@
-# pc config
+# my-dotfiles
 
-Aims to be a single-script I can use setting up a new PC.
+Holds some home directory setup that I use across laptops
 
 Probably useless to anyone else than me. Not completely impossible, though, that others 
-might find bits and pieces of the configurations useful.
+might find bits and pieces of it useful.
