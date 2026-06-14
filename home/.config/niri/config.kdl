@@ -2,7 +2,6 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
-
 //prefer-no-csd
 
 input {
@@ -84,7 +83,7 @@ output "Samsung Electric Company U32R59x H4ZMC00708" {
 
 spawn-at-startup "vivaldi-stable" "--no-startup-window"
 spawn-at-startup "runRefude.sh"
-spawn-at-startup "swayidle" "-w" "timeout" "600" "niri msg action power-off-monitors" "timeout" "180" "lockScreen" "before-sleep" "lockScreen"
+spawn-at-startup "idleLocking"
 
 hotkey-overlay {
     skip-at-startup

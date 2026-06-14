@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+#swayidle -w \
+#	timeout 180 gtklock \
+#	before-sleep gtklock
+#
+exec swayidle -w \
+	before-sleep "gtklock -d" \
+	timeout 170 "notify-send 'Låser skærm' '10 sekunder' -r 32425262 -i dialog-information -t 1200" \
+	timeout 171 "notify-send 'Låser skærm' '9 sekunder' -r 32425262 -i dialog-information -t 1200" \
+	timeout 172 "notify-send 'Låser skærm' '8 sekunder' -r 32425262 -i dialog-information -t 1200" \
+	timeout 173 "notify-send 'Låser skærm' '7 sekunder' -r 32425262 -i dialog-information -t 1200" \
+	timeout 174 "notify-send 'Låser skærm' '6 sekunder' -r 32425262 -i dialog-information -t 1200" \
+	timeout 175 "notify-send 'Låser skærm' '5 sekunder' -r 32425262 -i dialog-information -t 1200" \
+	timeout 176 "notify-send 'Låser skærm' '4 sekunder' -r 32425262 -i dialog-information -t 1200" \
+	timeout 177 "notify-send 'Låser skærm' '3 sekunder' -r 32425262 -i dialog-information -t 1200" \
+	timeout 178 "notify-send 'Låser skærm' '2 sekunder' -r 32425262 -i dialog-information -t 1200" \
+	timeout 179 "notify-send 'Låser skærm' '1 sekunder' -r 32425262 -i dialog-information -t 1200" \
+	timeout 180 gtklock \
+	timeout 600 "niri msg action power-off-monitors"
+
