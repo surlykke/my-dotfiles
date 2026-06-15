@@ -16,6 +16,6 @@ exec swayidle -w \
 	timeout 177 "notify-send 'Låser skærm' '3 sekunder' -r 32425262 -i dialog-information -t 1200" \
 	timeout 178 "notify-send 'Låser skærm' '2 sekunder' -r 32425262 -i dialog-information -t 1200" \
 	timeout 179 "notify-send 'Låser skærm' '1 sekunder' -r 32425262 -i dialog-information -t 1200" \
-	timeout 180 gtklock \
+	timeout 180 lockScreen \
 	timeout 600 "niri msg action power-off-monitors"
 

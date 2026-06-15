@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 nohup swaylock \
+	--fade-in 3 \
 	--screenshots \
 	--clock \
 	--indicator \

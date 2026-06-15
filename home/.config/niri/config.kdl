@@ -150,7 +150,7 @@ binds {
     Mod+N hotkey-overlay-title="Open a terminal: alacritty" { spawn "alacritty" "-e" "nvim"; }
 	Mod+Ctrl+N hotkey-overlay-title="Open a floating terminal: alacritty" { spawn "alacritty"  "--class" "alacrittyfloat" "-e" "nvim"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Mod+P hotkey-overlay-title="Lock the Screen: swaylock" { spawn "lockScreen"; }
+    Mod+P hotkey-overlay-title="Lock the Screen: lockScreen" { spawn "lockScreen"; }
     Mod+Tab hotkey-overlay-title="Show refude desktop" { spawn "showDesktop"; }
 	Mod+A hotkey-overlay-title="Arrange windows" { spawn "layout"; }
 
