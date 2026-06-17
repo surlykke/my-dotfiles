@@ -1,3 +1,0 @@
-#!/bin/bash
-[[ "no" == "$RUN_SWAYIDLE" ]] || exec swayidle -w timeout 300 fadeAndLockScreen before-sleep lockScreen
-
