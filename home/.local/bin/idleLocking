@@ -6,7 +6,7 @@
 #
 export MARKER=$XDG_RUNTIME_DIR/count-down-marker
 exec swayidle -w \
-	before-sleep "gtklock -d" \
+	before-sleep  lockScreen \
 	timeout 160 "touch $MARKER; lockCountDown 20 $MARKER &" \
 		resume "rm $MARKER" \
 	timeout 180 lockScreen \
