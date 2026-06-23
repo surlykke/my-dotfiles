@@ -7,11 +7,11 @@
     ],
     "modules-right": [
         "idle_inhibitor",
+		"battery",
         "cpu",
         "memory",
 		"disk",
         "temperature",
-		"battery",
 		"backlight",
 //        "pulseaudio",
 		"tray",
@@ -46,7 +46,7 @@
         "format": "Bat: {capacity}% (-)",
         "format-full": "Bat: {capacity}%",
         "format-charging": "Bat: {capacity}% (+)",
-		"interval": 10,
+		"interval": 2,
     },
     "backlight": {
         // "device": "acpi_video1",
