@@ -10,4 +10,4 @@ nohup alacritty >/dev/null 2>/dev/null &
 layout 
 #nohup dbvis >/dev/null 2>/dev/null
 
-nmcli con up 'lessor-vpn'
+ping -c 1 nexus.int.lessor.dk >/dev/null 2>/dev/null || nmcli con up 'lessor-vpn'
