@@ -7,8 +7,8 @@
 export MARKER=$XDG_RUNTIME_DIR/count-down-marker
 exec swayidle -w \
 	before-sleep  lockScreen \
-	timeout 160 "touch $MARKER; lockCountDown 20 $MARKER &" \
-		resume "rm $MARKER" \
-	timeout 180 lockScreen \
+	timeout 170 "notify-send -r 14238736 -t 9799 -i dialog-information 'Skærm låser snart' ''" \
+		resume "notify-send -r 14238736 -t 1 -i dialog-information 'Skærm låser snart' ''" \
+	timeout 180 "lockScreen 3" \
 	timeout 600 "niri msg action power-off-monitors"
 

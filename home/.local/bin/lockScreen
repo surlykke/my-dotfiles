@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-nohup swaylock \
-	--fade-in 1 \
+if [[ -n "$1" ]]; then
+	fadein="--fade-in $1"
+fi
+
+nohup swaylock $fadein\
 	--screenshots \
 	--clock \
 	--indicator \
@@ -13,4 +16,3 @@ nohup swaylock \
 	--line-color 00000000 \
 	--inside-color 00000088 \
 	--separator-color 00000000 >/dev/null 2>/dev/null &
-sleep 1
