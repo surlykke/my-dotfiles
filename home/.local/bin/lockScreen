@@ -3,6 +3,10 @@ if [[ -n "$1" ]]; then
 	fadein="--fade-in $1"
 fi
 
+if [[ -n "$2" ]]; then
+	fadein="$fadein --grace $2"
+fi
+
 nohup swaylock $fadein\
 	--screenshots \
 	--clock \
