@@ -4,6 +4,7 @@ blueman
 curl
 feh
 fish
+gdm3
 git
 golang
 gopls
