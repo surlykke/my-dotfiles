@@ -8,6 +8,7 @@ input {
     keyboard {
         xkb {
             layout "dk"
+            options "caps:swapescape"
         }
         numlock
     }
