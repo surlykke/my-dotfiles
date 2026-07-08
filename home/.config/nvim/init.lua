@@ -28,26 +28,64 @@ vim.o.confirm = true
 
 -- Plugins
 vim.pack.add({'https://github.com/stevearc/oil.nvim' })
-vim.pack.add({'https://github.com/neovim/nvim-lspconfig' })
-vim.pack.add({'https://github.com/folke/which-key.nvim' })
-vim.pack.add({'https://github.com/vague-theme/vague.nvim' })
-vim.pack.add({'https://github.com/jayli/vim-easycomplete.git' })
-vim.pack.add({{src = "https://github.com/nvim-lua/plenary.nvim" }, { src = "https://github.com/nvim-telescope/telescope.nvim" } })
-vim.pack.add({'https://github.com/sakshamgupta05/vim-todo-highlight'})
--- Configurations
 require('oil').setup()
-require("which-key").setup({ spec = { 
-  { '<leader>s', group = 'Search' },
-  {'<leader>w', group = 'Window' } 
-}})
 
+vim.pack.add({'https://github.com/neovim/nvim-lspconfig' })
 vim.lsp.enable('gopls')
 vim.lsp.enable('lua_ls')
-local telescope = require('telescope.builtin')
+vim.lsp.config('lua_ls', {
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = {'vim'},  -- Recognize 'vim' as a global variable
+      },
+    },
+  },
+})
+vim.diagnostic.config({
+  virtual_lines = {
+    only_current_line = true,
+    highlight_whole_line = true,
+  },
+  virtual_text = false
+})
+
+
+vim.pack.add({'https://github.com/folke/which-key.nvim' })
+require('which-key').setup({ spec = {
+  {'<leader>s', group = 'Search'},
+  {'<leader>w', group = 'Window'}
+}})
+
+vim.pack.add({'https://github.com/vague-theme/vague.nvim' })
+vim.cmd.colorscheme('vague')
+
+vim.pack.add({'https://github.com/nvim-lua/plenary.nvim'})
+
+vim.pack.add({'https://github.com/nvim-telescope/telescope.nvim' })
+
+vim.pack.add({'https://github.com/sakshamgupta05/vim-todo-highlight'})
+
+vim.pack.add({{ src = "https://github.com/saghen/blink.cmp", version = vim.version.range("^1")}})
+require('blink.cmp').setup({
+  keymap = { preset = 'default' },
+  appearance = { nerd_font_variant = 'mono' },
+  completion = {
+    list = { selection = { preselect = false, auto_insert = true } },
+  },
+  sources = {
+    default = { 'lsp', 'path', 'snippets', 'buffer' },
+  },
+})
+
+-- Configurations
+
 
 
 
 -- Keys
+
+local telescope = require('telescope.builtin')
 
 local tidyUp = function()
   vim.lsp.buf.format()
@@ -96,11 +134,6 @@ vim.keymap.set('n', '<leader>sr', telescope.resume, { desc = 'Resume search' })
 
 -- other
 vim.keymap.set('n', '<leader><leader>', tidyUp, { desc = 'Organize imports and format' })
-
--- Misc
-vim.cmd.colorscheme('vague')
-
-
 
 
 -- The line beneath this is called `modeline`. See `:help modeline`
