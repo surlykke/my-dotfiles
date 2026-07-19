@@ -83,25 +83,28 @@ vim.diagnostic.config({
 vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, { desc = 'Actions' })
 vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, { desc = 'Rename' })
 vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, { desc = 'Hover documentation' })
+vim.keymap.set('n', '<leader>d', vim.lsp.buf.definition, { desc = 'Definition' })
+vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, { desc = 'Type Definition' })
 
 
--- Telescope
-vim.pack.add({ 'https://github.com/nvim-lua/plenary.nvim' })
-vim.pack.add({ 'https://github.com/nvim-telescope/telescope.nvim' })
-local telescope = require('telescope.builtin')
-vim.keymap.set('n', '<leader>d', telescope.lsp_definitions, { desc = 'Definition' })
-vim.keymap.set('n', '<leader>D', telescope.lsp_type_definitions, { desc = 'Type Definition' })
-vim.keymap.set('n', '<leader>u', telescope.lsp_references, { desc = 'Usages' })
-vim.keymap.set('n', '<leader>i', telescope.lsp_implementations, { desc = 'Implementations' })
-vim.keymap.set('n', '<leader>st', telescope.live_grep, { desc = 'Search Text' })
-vim.keymap.set('n', '<leader>sw', telescope.grep_string, { desc = 'Search current word' })
-vim.keymap.set('n', '<leader>sb', telescope.buffers, { desc = 'Search buffers' })
-vim.keymap.set('n', '<leader>se', telescope.diagnostics, { desc = 'Search_Errors' })
-vim.keymap.set('n', '<leader>sf', telescope.find_files, { desc = 'Search Files' })
-vim.keymap.set('n', '<leader>sh', telescope.help_tags, { desc = 'Search Help' })
-vim.keymap.set('n', '<leader>sk', telescope.keymaps, { desc = 'Search Keymaps' })
-vim.keymap.set('n', '<leader>sp', telescope.builtin, { desc = 'Search Pickers' })
-vim.keymap.set('n', '<leader>sr', telescope.resume, { desc = 'Resume search' })
+-- Minipick
+vim.pack.add({ 'https://github.com/nvim-mini/mini.pick' })
+require('mini.pick').setup()
+vim.pack.add({ 'https://github.com/nvim-mini/mini.extra' })
+require('mini.extra').setup()
+vim.keymap.set('n', '<leader>sf', '<CMD>Pick files<CR>', { desc = 'Search files' })
+vim.keymap.set('n', '<leader>st', '<CMD>Pick grep live pattern=""<CR>', { desc = 'Search Text' })
+--vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = 'Search current word' }) -- TODO:
+vim.keymap.set('n', '<leader>sb', '<CMD>Pick buffers<CR>', { desc = 'Search buffers' })
+vim.keymap.set('n', '<leader>se', '<CMD>Pick diagnostic<CR>', { desc = 'Search Errors' })
+vim.keymap.set('n', '<leader>sh', '<CMD>Pick help<CR>', { desc = 'Search Help' })
+vim.keymap.set('n', '<leader>sk', '<CMD>Pick keymaps<CR>', { desc = 'Search Keymaps' })
+
+vim.keymap.set('n', '<leader>su', '<CMD>Pick lsp scope="references"<CR>', { desc = 'Usages' })
+vim.keymap.set('n', '<leader>si', '<CMD>Pick lsp scope="implementation"<CR>', { desc = 'Implementations' })
+vim.keymap.set('n', '<leader>ss', '<CMD>Pick lsp scope="workspace_symbol_live"<CR>', {desc = 'Search Symbols'})
+
+vim.keymap.set('n', '<leader>sr', '<CMD>Pick resume', { desc = 'Resume search' })
 
 
 -- Oil
