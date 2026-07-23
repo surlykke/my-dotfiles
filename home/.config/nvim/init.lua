@@ -27,11 +27,12 @@ vim.o.smartindent = true
 vim.o.title = true
 vim.o.confirm = true
 
-vim.o.autocomplete = true
-vim.opt.completeopt = { 'menuone', 'noselect' }
-vim.o.pumborder = 'rounded'
-vim.o.pumheight = 5
-
+vim.pack.add({ 'https://github.com/nvim-mini/mini.completion' })
+require('mini.completion').setup()
+vim.pack.add({ 'https://github.com/nvim-mini/mini.icons' })
+require('mini.icons').setup()
+vim.pack.add({ 'https://github.com/nvim-mini/mini.statusline' })
+require('mini.statusline').setup()
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Remove highlight' })
 
